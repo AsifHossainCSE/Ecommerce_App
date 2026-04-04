@@ -12,12 +12,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter   
+
+
 
    
   cupertino_icons: ^1.0.8
   firebase_core: ^4.6.0
   firebase_crashlytics: ^5.1.0
   firebase_analytics: ^12.2.0
+  intl: ^0.20.2
+  provider: ^6.1.5+1
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +38,7 @@ flutter:
 
   
   uses-material-design: true
+  generate: true
 
   
    

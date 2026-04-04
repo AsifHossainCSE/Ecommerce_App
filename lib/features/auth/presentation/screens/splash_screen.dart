@@ -1,3 +1,5 @@
+import 'package:crafty_bay/features/auth/presentation/screens/common/presentation/widgets/language_selector.dart';
+import 'package:crafty_bay/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +15,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Splash Screen'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context)!.hello),
+            LanguageSelector(),
+          ],
+        ),
       ),
     );
   }
