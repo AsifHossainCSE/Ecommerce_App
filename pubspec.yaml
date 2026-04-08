@@ -25,6 +25,7 @@ dependencies:
   intl: ^0.20.2
   provider: ^6.1.5+1
   shared_preferences: ^2.5.5
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,13 @@ flutter:
   
   uses-material-design: true
   generate: true
+
+  
+  assets:
+    - assets/images/
+
+
+
 
   
    
