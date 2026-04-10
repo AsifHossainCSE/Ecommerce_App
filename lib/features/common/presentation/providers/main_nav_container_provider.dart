@@ -1,0 +1,13 @@
+import 'package:flutter/material.dart';
+
+class MainNavContainerProvider extends ChangeNotifier {
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  void changeItem(int index) {
+    if (index == _selectedIndex) return;
+    _selectedIndex = index;
+    notifyListeners();
+  }
+}
