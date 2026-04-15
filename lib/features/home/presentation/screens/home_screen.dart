@@ -1,6 +1,6 @@
-import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/features/common/presentation/providers/main_nav_container_provider.dart';
+import 'package:crafty_bay/features/common/presentation/widgets/category_card.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/circle_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_carousel_slider.dart';
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
           
             children: [
@@ -42,7 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 
               }),
               const SizedBox(height: 16),
-              _buildPopularProductList()
+              _buildPopularProductList(),
+              SectionHeader(title: 'Special', onTapSeeAll: () {
+                
+              }),
+              _buildPopularProductList(),
+              SectionHeader(title: 'New Arrivals', onTapSeeAll: () {
+                
+              }),
+              _buildPopularProductList(),
            
             ],
           ),
@@ -97,36 +105,4 @@ class _HomeScreenState extends State<HomeScreen> {
 }
  
 
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 0,
-          color: AppColors.themeColor.withAlpha(30),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Icon(
-              Icons.computer,
-              size: 32,
-              color: AppColors.themeColor,
-            ),
-          ),
-        ),
-        Text(
-          'Computer',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: AppColors.themeColor,
-            letterSpacing: .6,
-          ),
-        ),
-      ],
-    );
-  }
-}
+ 

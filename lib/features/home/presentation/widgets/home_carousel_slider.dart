@@ -12,7 +12,7 @@ class HomeCarouselSlider extends StatefulWidget {
 class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
   final ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {        
     return Column(
       children: [
         CarouselSlider(

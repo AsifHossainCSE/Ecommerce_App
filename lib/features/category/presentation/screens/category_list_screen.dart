@@ -1,5 +1,5 @@
 import 'package:crafty_bay/features/common/presentation/providers/main_nav_container_provider.dart';
-import 'package:crafty_bay/features/home/presentation/screens/home_screen.dart';
+import 'package:crafty_bay/features/common/presentation/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
