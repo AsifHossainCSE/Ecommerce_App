@@ -2,6 +2,7 @@ import 'package:crafty_bay/features/auth/presentation/screens/sign_in_screen.dar
 import 'package:crafty_bay/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/presentation/screens/splash_screen.dart';
 import 'package:crafty_bay/features/auth/presentation/screens/verify_otp_screen.dart';
+import 'package:crafty_bay/features/cart/presentation/screens/product_details_screen.dart';
 import 'package:crafty_bay/features/common/presentation/screens/main_nav_holder_screen.dart';
 import 'package:crafty_bay/features/product/presentation/Screens/product_list_by_category_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,10 @@ class AppRoutes {
       widget = const VerifyOtpScreen();
     } else if(setting.name == MainNavHolderScreen.name){
       widget = const MainNavHolderScreen();
-    } else if(setting.name == '/product-list-by-category'){
+    } else if(setting.name == ProductListByCategoryScreen.name){
       widget = const ProductListByCategoryScreen();
+    } else if(setting.name == ProductDetailsScreen.name){
+      widget = ProductDetailsScreen();
     }
      return MaterialPageRoute(builder: (context) => widget);
 
