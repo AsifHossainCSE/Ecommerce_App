@@ -17,7 +17,8 @@ class AppRoutes {
     } else if(setting.name == SignInScreen.name){
       widget = const SignInScreen();
     } else if(setting.name == VerifyOtpScreen.name){
-      widget = const VerifyOtpScreen();
+      final String email = setting.arguments as String;
+      widget = VerifyOtpScreen(email: email,);
     } else if(setting.name == MainNavHolderScreen.name){
       widget = const MainNavHolderScreen();
     } else if(setting.name == ProductListByCategoryScreen.name){
