@@ -18,10 +18,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CategoryListProvider>().loadInitialCategoryList();
-      _scrollController.addListener(_loadMoreData);
-    });
+    _scrollController.addListener(_loadMoreData);
   }
 
   void _loadMoreData(){
