@@ -1,5 +1,7 @@
+import 'package:crafty_bay/features/category/presentation/providers/category_list_provider.dart';
 import 'package:crafty_bay/features/common/presentation/providers/main_nav_container_provider.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/category_card.dart';
+import 'package:crafty_bay/features/common/presentation/widgets/center_circular_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,24 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CategoryListProvider>().loadInitialCategoryList();
+      _scrollController.addListener(_loadMoreData);
+    });
+  }
+
+  void _loadMoreData(){
+    if(_scrollController.position.extentBefore <300){
+       context.read<CategoryListProvider>().fetchCategoryList();
+
+    }
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -25,19 +45,40 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
             context.read<MainNavContainerProvider>().backToHome();
           }, icon: Icon( Icons.arrow_back_ios)),  
           title: const Text('Categories')),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-            itemCount: 100,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-            ),
-            itemBuilder: (context, index){
-          
-              return CategoryCard();    
-          
-            },
-          ),
+        body: Consumer<CategoryListProvider>(
+          builder: (context, categoryListProvider, _) {
+            if(categoryListProvider.initialLoading){
+              return CenterCircularProgress();
+            }
+            return Column(
+              children: [
+                
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                      controller: _scrollController,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: .7,
+                      ),
+                      itemCount: categoryListProvider.categoryList.length,
+                    
+                      itemBuilder: (context, index){
+                    
+                        return CategoryCard(
+                          categoryModel: categoryListProvider.categoryList[index],
+                        );    
+                    
+                      },
+                    ),
+                  ),
+                ),
+                if (categoryListProvider.moreLoading)
+                 CenterCircularProgress()
+              ],
+            );
+          }
         ),
       ),
     );
