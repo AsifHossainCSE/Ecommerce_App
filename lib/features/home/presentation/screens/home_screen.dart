@@ -4,6 +4,7 @@ import 'package:crafty_bay/features/common/presentation/providers/main_nav_conta
 import 'package:crafty_bay/features/common/presentation/widgets/category_card.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/center_circular_progress.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/product_card.dart';
+import 'package:crafty_bay/features/home/presentation/provider/home_slider_provider.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/circle_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_carousel_slider.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/product_search_field.dart';
@@ -32,7 +33,24 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ProductSearchField(),
               const SizedBox(height: 16),
-              HomeCarouselSlider(),
+              Consumer<HomeSliderProvider>(
+                builder: (context, homeSliderProvider, _) {
+                  if (homeSliderProvider.getHomeSlidersInProgress){
+                    return SizedBox(
+                      height: 200,
+                      child: CenterCircularProgress());
+                  } 
+                  if (homeSliderProvider.homeSliders.isEmpty){
+                    return SizedBox(
+                      height: 200,
+                      child: Center(child: Text('No sliders found')));
+                    
+                  }
+                  return HomeCarouselSlider(
+                    sliders: homeSliderProvider.homeSliders,
+                  );
+                }
+              ),
               const SizedBox(height: 16),
               SectionHeader(title: 'Categories', onTapSeeAll: () {
                 context.read<MainNavContainerProvider>().changeToCategories();
