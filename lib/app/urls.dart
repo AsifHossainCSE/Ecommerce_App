@@ -4,5 +4,11 @@ class Urls {
   static const String verifyOtpUrl = '$_baseUrl/auth/verify-otp';
   static const String signInUrl = '$_baseUrl/auth/login';
   static String homeSlidersUrl() => '$_baseUrl/slides';
-  static String categoriesUrl(int pageSize, int pageNo) => '$_baseUrl/categories?count=$pageSize&page=$pageNo';
+  static String categoriesUrl(int pageSize, int pageNo) =>
+      '$_baseUrl/categories?count=$pageSize&page=$pageNo';
+  static String productsByCategoryUrl(
+    int pageSize,
+    int pageNo,
+    String categoryId,
+  ) => '$_baseUrl/products?count=$pageSize&page=$pageNo&category=$categoryId';
 }

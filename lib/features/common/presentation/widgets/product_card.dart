@@ -1,16 +1,19 @@
 
 import 'package:crafty_bay/app/app_colors.dart';
-import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/app/constants.dart';
 import 'package:crafty_bay/features/cart/presentation/screens/product_details_screen.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/favourite_button.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/rating_view.dart';
+import 'package:crafty_bay/features/product/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
+    required this.productModel,
   });
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   color: AppColors.themeColor.withAlpha(30),
                   image: DecorationImage(
-                    image: AssetImage(AssetPaths.dummyImagePng),
+                    image: NetworkImage(productModel.photo),
                    ),
                 ),
               ),
@@ -48,12 +51,13 @@ class ProductCard extends StatelessWidget {
                 child: Column(
                   
                   children: [
-                    Text('Nike Shoe RG3434 - New Arrival', maxLines: 1,style: TextStyle(overflow: TextOverflow.ellipsis,)),
+                    Text(productModel.title, maxLines: 1,style: TextStyle(overflow: TextOverflow.ellipsis,)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                      '${Constants.takaSign}234',
+                      '${Constants.takaSign}${productModel.currentPrice}',
+
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: AppColors.themeColor,

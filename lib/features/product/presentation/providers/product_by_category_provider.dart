@@ -1,26 +1,26 @@
 import 'package:crafty_bay/app/core/services/network_caller.dart';
 import 'package:crafty_bay/app/set_up_network_caller.dart';
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/features/category/data/models/category_model.dart';
+import 'package:crafty_bay/features/product/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 
-class CategoryListProvider extends ChangeNotifier{
+class ProductListByCategoryProvider extends ChangeNotifier{
   final int _pageSize = 30;
   int _currentPageNo = 0;
   int? _lastPageNo;
   bool _initialLoading = false;
   bool _loadingMoreData = false;
-  final List<CategoryModel> _categoryList = [];
+  final List<ProductModel> _productList = [];
   String? _errorMessage;
-  List<CategoryModel> get categoryList => _categoryList;
+  List<ProductModel> get productList => _productList;
   bool get initialLoading => _initialLoading;
   bool get moreLoading => _loadingMoreData;
   String? get errorMessage => _errorMessage;
 
-  Future<bool> fetchCategoryList() async{
+  Future<bool> fetchProductList(String categoryId) async{
     bool isSuccess = false;
     if(_currentPageNo == 0){
-      _categoryList.clear();
+      _productList.clear();
       _initialLoading = true;
     } else if (_lastPageNo != null &&
     _currentPageNo < _lastPageNo!){
@@ -32,15 +32,16 @@ class CategoryListProvider extends ChangeNotifier{
      _currentPageNo++;
 
      final NetworkResponse response = await getNetworkCaller().getRequest(
-      url: Urls.categoriesUrl(_pageSize, _currentPageNo));
+      url: Urls.productsByCategoryUrl(_pageSize, _currentPageNo, categoryId));
 
     if(response.isSuccess){
+      print(response.responseData); 
       _lastPageNo ??= response.responseData['data']['last_page'];
-      List<CategoryModel> list = [];
+      List<ProductModel> list = [];
       for(Map<String, dynamic> jsonData in response.responseData['data']['results']){
-        list.add(CategoryModel.fromJson(jsonData));
+        list.add(ProductModel.fromJson(jsonData));
       }
-      _categoryList.addAll(list);
+      _productList.addAll(list);
       isSuccess = true;
     } else{
 
@@ -60,9 +61,9 @@ class CategoryListProvider extends ChangeNotifier{
 
 }
 
-  Future<void> loadInitialCategoryList() async{
+  Future<void> loadInitialProductList(String categoryId) async{
     _currentPageNo = 0;
     _lastPageNo = null;
-    await fetchCategoryList();
+    await fetchProductList(categoryId);
   }
 }

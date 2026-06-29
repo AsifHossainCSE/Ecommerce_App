@@ -3,7 +3,6 @@ import 'package:crafty_bay/features/category/presentation/providers/category_lis
 import 'package:crafty_bay/features/common/presentation/providers/main_nav_container_provider.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/category_card.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/center_circular_progress.dart';
-import 'package:crafty_bay/features/common/presentation/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/presentation/provider/home_slider_provider.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/circle_icon_button.dart';
 import 'package:crafty_bay/features/home/presentation/widgets/home_carousel_slider.dart';
@@ -86,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return ProductCard();
+                  return Container();
                 },
               ),
             );
@@ -105,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: categoryListProvider.categoryList.length>10? 10: categoryListProvider.categoryList.length,
                     itemBuilder: (context, index) {
-                     return CategoryCard(categoryModel: categoryListProvider.categoryList[index],);
+                     return CategoryCard(categoryModel: categoryListProvider.categoryList[index] as dynamic,);
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: 12),

@@ -23,14 +23,19 @@ class _MainNavHolderScreenState extends State<MainNavHolderScreen> {
     HomeScreen(),
     CategoryListScreen(),
     CartListScreen(),
-    WishListScreen(), 
+    WishListScreen(),
   ];
+  
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    context.read<CategoryListProvider>().fetchCategoryList();
-    context.read<HomeSliderProvider>().getHomeSliders();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CategoryListProvider>().fetchCategoryList();
+      context.read<HomeSliderProvider>().getHomeSliders();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainNavContainerProvider>(

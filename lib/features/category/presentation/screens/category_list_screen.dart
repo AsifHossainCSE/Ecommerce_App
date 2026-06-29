@@ -22,6 +22,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   }
 
   void _loadMoreData(){
+    if(context.read<CategoryListProvider>().moreLoading){
+      return;
+    }
+
+     
     if(_scrollController.position.extentBefore <300){
        context.read<CategoryListProvider>().fetchCategoryList();
 
@@ -64,7 +69,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                       itemBuilder: (context, index){
                     
                         return CategoryCard(
-                          categoryModel: categoryListProvider.categoryList[index],
+                          categoryModel: categoryListProvider.categoryList[index] as dynamic,
                         );    
                     
                       },

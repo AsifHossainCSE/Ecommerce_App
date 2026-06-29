@@ -1,5 +1,4 @@
 import 'package:crafty_bay/features/common/presentation/providers/main_nav_container_provider.dart';
-import 'package:crafty_bay/features/common/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +33,7 @@ class _WishListScreenState extends State<WishListScreen> {
               mainAxisSpacing: 8,),
             itemBuilder: (context,index){
           
-              return  FittedBox(child: ProductCard());
+             // return  FittedBox(child: ProductCard());
           
             }
           ),
