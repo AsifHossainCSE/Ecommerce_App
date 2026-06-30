@@ -2,8 +2,9 @@ import 'package:crafty_bay/app/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class IncDecButton extends StatefulWidget {
-  const IncDecButton({super.key, required this.onChange});
+  const IncDecButton({super.key, required this.onChange, this.maxValue = 100});
   final Function(int) onChange;
+  final int maxValue;
 
   @override
   State<IncDecButton> createState() => _IncDecButtonState();
@@ -30,9 +31,10 @@ class _IncDecButtonState extends State<IncDecButton> {
         Text('$_currentValue', style: Theme.of(context).textTheme.titleMedium),
         _buildGestureDetector(
           onTap: () {
+            if(widget.maxValue > _currentValue){
             _currentValue++;
             widget.onChange(_currentValue);
-            setState(() {});
+            setState(() {});}
           },
           icon: Icons.add,
         ),

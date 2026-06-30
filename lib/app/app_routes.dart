@@ -26,7 +26,8 @@ class AppRoutes {
       final CategoryModel categoryModel = setting.arguments as CategoryModel;
       widget = ProductListByCategoryScreen(categoryModel: categoryModel);
     } else if(setting.name == ProductDetailsScreen.name){
-      widget = ProductDetailsScreen();
+      final productId = setting.arguments as String;
+      widget = ProductDetailsScreen(productId:productId);
     }
      return MaterialPageRoute(builder: (context) => widget);
 
