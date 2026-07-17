@@ -1,9 +1,13 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/features/auth/presentation/providers/auth_controller.dart';
+import 'package:crafty_bay/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/cart/presentation/widgets/inc_dec_button.dart';
+import 'package:crafty_bay/features/common/presentation/providers/add_to_card_provider.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/center_circular_progress.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/favourite_button.dart';
 import 'package:crafty_bay/features/common/presentation/widgets/rating_view.dart';
+import 'package:crafty_bay/features/common/presentation/widgets/snack_bar_message.dart';
 import 'package:crafty_bay/features/product/presentation/providers/product_details_provider.dart';
 import 'package:crafty_bay/features/product/presentation/widgets/color_piker.dart';
 import 'package:crafty_bay/features/product/presentation/widgets/product_image_slider.dart';
@@ -28,6 +32,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsProvider _productDetailsProvider =
       ProductDetailsProvider();
+  final AddToCardProvider _addToCardProvider = AddToCardProvider();    
 
   @override
   void initState() {
@@ -42,26 +47,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider(
-      create: (_) => _productDetailsProvider,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Product Details'),
-        ),
-        body: Consumer<ProductDetailsProvider>(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Product Details'),
+      ),
+      body: MultiProvider(
+        providers:[
+          ChangeNotifierProvider(create: (_)=>_productDetailsProvider),
+          ChangeNotifierProvider(create: (_)=>_addToCardProvider),
+        ],
+        child: Consumer<ProductDetailsProvider>(
           builder: (context, provider, child) {
             if (provider.getProductDetailsInProgress) {
               return const CenterCircularProgress();
             }
-
+            
             if (provider.productDetails == null) {
               return Center(
                 child: Text(provider.errorMessage ?? 'No Product Found'),
               );
             }
-
+            
             final product = provider.productDetails!;
-
+            
             return Column(
               children: [
                 Expanded(
@@ -74,9 +82,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ProductImagelSlider(
                             imageUrls: product.photos,
                           ),
-
+            
                           const SizedBox(height: 16),
-
+            
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -92,9 +100,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                             ],
                           ),
-
+            
                           const SizedBox(height: 8),
-
+            
                           Row(
                             children: [
                               const RatingView(),
@@ -105,7 +113,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               const FavouriteButton(),
                             ],
                           ),
-
+            
                           if (product.colors.isNotEmpty) ...[
                             Text(
                               'Color',
@@ -118,7 +126,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             const SizedBox(height: 16),
                           ],
-
+            
                           if (product.sizes.isNotEmpty) ...[
                             Text(
                               'Size',
@@ -131,14 +139,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             const SizedBox(height: 16),
                           ],
-
+            
                           Text(
                             'Description',
                             style: textTheme.titleMedium,
                           ),
-
+            
                           const SizedBox(height: 8),
-
+            
                           Text(
                             product.description,
                             style: const TextStyle(
@@ -150,7 +158,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                 ),
-
+            
                 _buildPriceAndAddToCartSection(
                   textTheme,
                   product.price,
@@ -197,13 +205,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 120,
-            child: FilledButton(
-              onPressed: () {},
-              child: const Text('Add to Cart'),
+            child: Consumer<AddToCardProvider>(
+              builder: (context, provider, _) {
+                if (provider.addToCardInProgress) {
+                  return const CenterCircularProgress();
+                }
+                return FilledButton(
+                  onPressed: _onTapAddToCartButton, 
+                  child: const Text('Add to Cart'),
+                );
+              }
             ),
           ),
         ],
       ),
     );
+  }
+  void _onTapAddToCartButton() async{
+    if(await AuthController.isAlreadyLoggedIn()){
+
+      final bool isSuccess = await _addToCardProvider.addToCard(widget.productId);
+      if(isSuccess){
+        showSnackBarMessage(context, 'Product added to cart successfully.');
+      } else{
+        showSnackBarMessage(context, _addToCardProvider.errorMessage ?? 'Failed to add product to cart.');
+      }
+
+    }else{
+      Navigator.pushNamed(context, SignUpScreen.name);
+    }
+
+    // Implement the logic to add the product to the cart
   }
 }
